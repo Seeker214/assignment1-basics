@@ -161,3 +161,10 @@ cython_debug/
 
 .ruff_cache/
 *.zip
+data/owt_train.txt.gz
+data/*
+pytest.ini
+.gitignore
+.vscode/*
+cs336_basics/merges.json
+cs336_basics/vocab.json

@@ -1,9 +1,13 @@
 import json
 import time
-
+import logging
 from .adapters import run_train_bpe
 from .common import FIXTURES_PATH, gpt2_bytes_to_unicode
 
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(message)s"
+)
 
 def test_train_bpe_speed():
     """
@@ -47,6 +51,8 @@ def test_train_bpe():
             )
             for merge_token_1, merge_token_2 in gpt2_reference_merges
         ]
+    # logging.info(f"merges is {merges}")
+    # logging.info(f"reference_merges is {reference_merges}")
     assert merges == reference_merges
 
     # Compare the vocab to the expected output vocab
