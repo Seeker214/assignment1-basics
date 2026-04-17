@@ -168,3 +168,4 @@ pytest.ini
 .vscode/*
 cs336_basics/merges.json
 cs336_basics/vocab.json
+cs336_basics/merges.txt

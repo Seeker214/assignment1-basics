@@ -18,6 +18,7 @@ class StateManager:
                 self.token_affected_seq[pair].add(k)
     
     def get_best_pair(self) -> Pair:
+        # TODO: 简单测试耗时，这部分的开销久高不下，以后用堆优化以下
         return max(self.token_neibo_num, key=lambda p: (self.token_neibo_num[p], p))
     
     def perform_merge(self, best_pair: Pair):

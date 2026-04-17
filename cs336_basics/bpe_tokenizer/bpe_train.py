@@ -2,9 +2,9 @@ import re
 import os
 import logging
 
-from .pre_tokenizer import pre_tokenizer
-from .vocab import build_initial_vocab
-from .state_manager import StateManager
+from cs336_basics.bpe_tokenizer.pre_tokenizer import pre_tokenizer
+from cs336_basics.bpe_tokenizer.vocab import build_initial_vocab
+from cs336_basics.bpe_tokenizer.state_manager import StateManager
 
 class BPETrainer:
     def __init__(self, vocab_size: int, special_tokens: list[str]):
@@ -17,12 +17,7 @@ class BPETrainer:
         with open(input_path, "r") as f:
             text = f.read()
         
-        special_tokens_escape = [re.escape(t) for t in self.special_tokens]
-        pattern = "|".join(special_tokens_escape)
-        text_list = re.split(pattern, text)
-        # 清洗空白字符串
-        text_list = [s for s in text_list if s]
-
+        text_list = self.split_with_special_tokens(text, self.special_tokens)
         process = pre_tokenizer(text_list)
 
         manager = StateManager(process)
@@ -67,6 +62,14 @@ class BPETrainer:
             merge_num -= 1
         self.vocab = {token: idx for idx, token in enumerate(self.vocab)}
         return self.vocab, self.merges
+
+    def split_with_special_tokens(self, text: str, special_tokens: list[str]) -> list[str]:
+        special_tokens_escape = [re.escape(t) for t in special_tokens]
+        pattern = "|".join(special_tokens_escape)
+        text_list = re.split(pattern, text)
+        # 清洗空白字符串
+        text_list = [s for s in text_list if s]
+        return text_list
 
     def _find_chunk_boundary(self, input_path: str, chunk_num: int) -> list[int]:
         with open(input_path, "rb") as f:

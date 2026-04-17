@@ -342,6 +342,16 @@ def test_tinystories_matches_tiktoken():
         corpus_contents = f.read()
     reference_ids = reference_tokenizer.encode(corpus_contents, allowed_special={"<|endoftext|>"})
     ids = tokenizer.encode(corpus_contents)
+    import logging
+    logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(message)s")
+
+    # diff = []
+    # for i in range(len(ids)):
+    #     if ids[i] != reference_ids[i]:
+    #         diff.append((i, ids[i], reference_ids[i]))
+    # logging.info(f"diff: {diff}")
+    logging.info(f"refer: {reference_ids[498:510]}")
+    logging.info(f"ids: {ids[498:510]}")
     assert ids == reference_ids
 
     assert tokenizer.decode(ids) == corpus_contents
